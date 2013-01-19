@@ -8,12 +8,16 @@ Gem::Specification.new do |gem|
   gem.version       = Khipu::Rails::VERSION
   gem.authors       = ["Klaus Hott Vidal"]
   gem.email         = ["klahott@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{This gem provides a rails wrapper for the khipu api.}
+  gem.summary       = %q{This gem provides a rails wrapper for the khipu api.}
+  gem.homepage      = %q{https://github.com/janther/khipu-rails}
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+
+  gem.add_dependency "rails", "~> 3.2"
+
+  gem.add_development_dependency "rspec"
 end
