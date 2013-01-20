@@ -7,23 +7,14 @@ It offers an API for developers to create via POST new charges.
 ## Installation
 
 Add to your Gemfile and run the `bundle` command to install it.
-
 ```ruby
 gem 'khipu-rails'
 ```
-Create a khipu.yml file under your config folder.
-```yaml
-production:
-  user_id: YOUR ID
-  api_key: YOUR API KEY
 
-test:
-  user_id: YOUR ID
-  api_key: YOUR API KEY
-
-development:
-  user_id: YOUR ID
-  api_key: YOUR API KEY
+Create an initializer with the following code.
+```ruby
+KhipuRails::Config.user_id = ID
+KhipuRails::Config.api_key = API KEY
 ```
 
 *ID and API KEY can be found [here](https://khipu.com/merchant/profile#instant-notification-data)*
