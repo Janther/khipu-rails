@@ -1,7 +1,7 @@
-require "khipu-rails/version"
+# encoding: utf-8
+require "khipu_rails/version"
+require "khipu_rails/button_helper"
+require "khipu_rails/railtie"
 
-module Khipu
-  module Rails
-    # Your code goes here...
-  end
+module KhipuRails
 end

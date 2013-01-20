@@ -1,11 +1,10 @@
-# Khipu::Rails
+# KhipuRails
 
 [Khipu](https://khipu.com/home) is a service that facilitates web billing and collection in Chile.
 It handles very elegantly bank transfers and allows to generate bills in batches.
 It offers an API for developers to create via POST new charges.
 
 ## Installation
------------------------------------
 
 Add to your Gemfile and run the `bundle` command to install it.
 
@@ -30,7 +29,6 @@ development:
 *ID and API KEY can be found [here](https://khipu.com/merchant/profile#instant-notification-data)*
 
 # TODO:
------------------------------------
 
 ## Creating a button for a single bill
 
