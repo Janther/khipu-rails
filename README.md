@@ -55,7 +55,7 @@ If you provide an URL for Khipu to deliver [notifications](https://khipu.com/pag
 **khipu_validation params, local_validation = false**
 
 * **params**: The POST params delivered by Khipu.
-* **local_validation**: Wether the should be done at the [local machine](https://khipu.com/page/api#validacion-local) or by [Khipu's API](https://khipu.com/page/api#validacion-web-service).
+* **local_validation**: Wether the validation should be done at the [local machine](https://khipu.com/page/api#validacion-local) or by [Khipu's API](https://khipu.com/page/api#validacion-web-service).
 
 ## Contributing
 
