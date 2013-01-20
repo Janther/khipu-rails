@@ -40,7 +40,7 @@ Options:
 * **:payer_email**: The email of the payer. If this is set, Khipu will pre-fill this field in the payment page.
 * **:picture_url**: The URL of the product or service related to this charge.
 * **:custom**: Additional information related to this charge such as shipment instructions.
-* **:button_image**: Size of the [buttons provided by Khipu](https://khipu.com/page/botones-de-pago). If you designed your own button you can also provide the URL. *(It defaults to ** "50x25" ** when **nil** given)*
+* **:button_image**: Size of the [buttons provided by Khipu](https://khipu.com/page/botones-de-pago). If you designed your own button you can also provide the URL. *(It defaults to __"50x25"__ when __nil__ given)*
 * **:receiver_id**: You can specify a receiver if you don't want to use the data stored in the **KhipuRails::Config.user_id** variable.
 * **:secret**: You can specify a secret if you don't want to use the data stored in the **KhipuRails::Config.api_key** variable.
 
