@@ -19,19 +19,18 @@ KhipuRails::Config.api_key = API KEY
 
 *ID and API KEY can be found [here](https://khipu.com/merchant/profile#instant-notification-data)*
 
-# TODO:
+# Features
 
 ## Creating a button for a single bill
 
 This gem provides a helper to build a button using the right parameters provided in the [API documentation](https://khipu.com/page/api#creacion-formulario).
 
 ### khipu_button
-**khipu_button subject, amount, button_image = "50x25", OPTIONS**
+**khipu_button subject, amount, options = {}**
 
 Params:
 * **subject**: The subject of the bill. *max 255 chars*
 * **amount**: Amount to charge.
-* **button_image**: Size of the [buttons provided by Khipu](https://khipu.com/page/botones-de-pago). If you designed your own button you can also provide the URL.
 
 Options:
 * **:body**: Further description of the charge.
@@ -41,6 +40,11 @@ Options:
 * **:payer_email**: The email of the payer. If this is set, Khipu will pre-fill this field in the payment page.
 * **:picture_url**: The URL of the product or service related to this charge.
 * **:custom**: Additional information related to this charge such as shipment instructions.
+* **:button_image**: Size of the [buttons provided by Khipu](https://khipu.com/page/botones-de-pago). If you designed your own button you can also provide the URL. *(It defaults to **"50x25"** when **nil** given)*
+* **:receiver_id**: You can specify a receiver if you don't want to use the data stored in the **KhipuRails::Config.user_id** variable.
+* **:secret**: You can specify a secret if you don't want to use the data stored in the **KhipuRails::Config.api_key** variable.
+
+# TODO:
 
 ## Validation of payment notifications
 
