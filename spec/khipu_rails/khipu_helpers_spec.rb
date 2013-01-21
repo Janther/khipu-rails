@@ -78,7 +78,21 @@ describe KhipuRails::ButtonHelper do
     it "has an input called hash" do
       input = @button.css('form input[name=hash]')
       input.attribute('type').value.should == 'hidden'
-      input.attribute('value').value.should == '282fa35378586a753004c27002f66deeff6c8988' #Hash calculated at http://www.sha1-online.com
+      def get_value attribute
+        @button.css("form input[name=#{attribute}]").attribute('value').value
+      end
+      raw = "receiver_id=#{get_value :receiver_id}&"
+      raw += "subject=#{get_value :subject}&"
+      raw += "body=#{get_value :body}&"
+      raw += "amount=#{get_value :amount}&"
+      raw += "return_url=#{get_value :return_url}&"
+      raw += "cancel_url=#{get_value :cancel_url}&"
+      raw += "custom=#{get_value :custom}&"
+      raw += "transaction_id=#{get_value :transaction_id}&"
+      raw += "picture_url=#{get_value :picture_url}&"
+      raw += "payer_email=#{get_value :payer_email}&"
+      raw += "secret=#{@secret}"
+      input.attribute('value').value.should == Digest::SHA1.hexdigest(raw)
     end
 
     it "has an image submit" do
