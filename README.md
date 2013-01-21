@@ -40,9 +40,20 @@ Options:
 * **:payer_email**: The email of the payer. If this is set, Khipu will pre-fill this field in the payment page.
 * **:picture_url**: The URL of the product or service related to this charge.
 * **:custom**: Additional information related to this charge such as shipment instructions.
-* **:button_image**: Size of the [buttons provided by Khipu](https://khipu.com/page/botones-de-pago). If you designed your own button you can also provide the URL. *(It defaults to __"50x25"__ when __nil__ given)*
+* **:button_image**: Identifier of the button to display. If you designed your own button you can also provide the URL. *(It defaults to __"50x25"__ when __nil__ given)*
 * **:receiver_id**: You can specify a receiver if you don't want to use the data stored in the **KhipuRails::Config.user_id** variable.
 * **:secret**: You can specify a secret if you don't want to use the data stored in the **KhipuRails::Config.api_key** variable.
+
+**[Button Images provided by Khipu](https://khipu.com/page/botones-de-pago)**
+**50x25**: ![50x25 Button]https://s3.amazonaws.com/static.khipu.com/buttons/50x25.png)
+**100x25**: ![100x25 Button]https://s3.amazonaws.com/static.khipu.com/buttons/100x25.png)
+**100x50**: ![100x50 Button]https://s3.amazonaws.com/static.khipu.com/buttons/100x50.png)
+**150x25**: ![150x25 Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x25.png)
+**150x50**: ![150x50 Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x50.png)
+**150x75**: ![150x75 Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x75.png)
+**150x75-B**: ![150x75-B Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x75-B.png)
+**200x50**: ![200x50 Button]https://s3.amazonaws.com/static.khipu.com/buttons/200x50.png)
+**200x75**: ![200x75 Button]https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png)
 
 # TODO:
 
