@@ -45,15 +45,15 @@ Options:
 * **:secret**: You can specify a secret if you don't want to use the data stored in the **KhipuRails::Config.api_key** variable.
 
 **[Button Images provided by Khipu](https://khipu.com/page/botones-de-pago)**
-**50x25**: ![50x25 Button]https://s3.amazonaws.com/static.khipu.com/buttons/50x25.png)
-**100x25**: ![100x25 Button]https://s3.amazonaws.com/static.khipu.com/buttons/100x25.png)
-**100x50**: ![100x50 Button]https://s3.amazonaws.com/static.khipu.com/buttons/100x50.png)
-**150x25**: ![150x25 Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x25.png)
-**150x50**: ![150x50 Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x50.png)
-**150x75**: ![150x75 Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x75.png)
-**150x75-B**: ![150x75-B Button]https://s3.amazonaws.com/static.khipu.com/buttons/150x75-B.png)
-**200x50**: ![200x50 Button]https://s3.amazonaws.com/static.khipu.com/buttons/200x50.png)
-**200x75**: ![200x75 Button]https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png)
+**50x25**: ![50x25 Button](https://s3.amazonaws.com/static.khipu.com/buttons/50x25.png)
+**100x25**: ![100x25 Button](https://s3.amazonaws.com/static.khipu.com/buttons/100x25.png)
+**100x50**: ![100x50 Button](https://s3.amazonaws.com/static.khipu.com/buttons/100x50.png)
+**150x25**: ![150x25 Button](https://s3.amazonaws.com/static.khipu.com/buttons/150x25.png)
+**150x50**: ![150x50 Button](https://s3.amazonaws.com/static.khipu.com/buttons/150x50.png)
+**150x75**: ![150x75 Button](https://s3.amazonaws.com/static.khipu.com/buttons/150x75.png)
+**150x75-B**: ![150x75-B Button](https://s3.amazonaws.com/static.khipu.com/buttons/150x75-B.png)
+**200x50**: ![200x50 Button](https://s3.amazonaws.com/static.khipu.com/buttons/200x50.png)
+**200x75**: ![200x75 Button](https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png)
 
 # TODO:
 
