@@ -58,6 +58,11 @@ describe KhipuRails::ButtonHelper do
       input.attribute('value').value.should == ''
     end
 
+    it "has an input called custom" do
+      input = @button.css('form input[name=custom]')
+      input.attribute('value').value.should == ''
+    end
+
     it "has an input called payer_email" do
       input = @button.css('form input[name=payer_email]')
       input.attribute('value').value.should == ''
