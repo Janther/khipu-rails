@@ -1,6 +1,7 @@
 # KhipuRails
 
-[Khipu](https://khipu.com/home) is a service that facilitates web billing and collection in Chile.
+[Khipu](https://khipu.com/home) is a service that facilitates web billing and collection in **Chile**.
+
 It handles very elegantly bank transfers and allows to generate bills in batches.
 It offers an API for developers to create via POST new charges.
 
