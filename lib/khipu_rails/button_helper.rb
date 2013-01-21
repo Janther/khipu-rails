@@ -26,6 +26,7 @@ module KhipuRails
           i << hidden_field_tag(:amount, amount)
           i << hidden_field_tag(:return_url, options[:return_url])
           i << hidden_field_tag(:cancel_url, options[:cancel_url])
+          i << hidden_field_tag(:custom, options[:custom])
           i << hidden_field_tag(:transaction_id, options[:transaction_id])
           i << hidden_field_tag(:payer_email, options[:payer_email])
           i << hidden_field_tag(:picture_url, options[:picture_url])
