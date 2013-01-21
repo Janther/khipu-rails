@@ -20,12 +20,14 @@ describe KhipuRails::ButtonHelper do
 
   context "given a form with minimal data was correctly generated, it" do
     before :all do
+      @receiver_id = KhipuRails::Config.user_id
+      @secret = KhipuRails::Config.api_key
       @button = Nokogiri::HTML.parse(@view.khipu_button "minimal", 2000)
     end
 
     it "has an input called reciever_id" do
       input = @button.css('form input[name=receiver_id]')
-      input.attribute('value').value.to_i.should == KhipuRails::Config.user_id
+      input.attribute('value').value.to_i.should == @receiver_id
     end
 
     it "has an input called subject" do
