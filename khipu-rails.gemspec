@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = KhipuRails::VERSION
   gem.authors       = ["Klaus Hott Vidal"]
   gem.email         = ["klahott@gmail.com"]
-  gem.description   = %q{This gem provides a rails wrapper for the khipu api.}
-  gem.summary       = %q{This gem provides a rails wrapper for the khipu api.}
+  gem.description   = %q{This gem provides an ActionView helper that creates a form following Khipu's documentation.}
+  gem.summary       = %q{Wrapper for the Khipu api.}
   gem.homepage      = %q{https://github.com/janther/khipu-rails}
 
   gem.files         = `git ls-files`.split($/)
@@ -18,8 +18,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency "rails", "~> 3.1.10"
+  gem.add_dependency "jquery-rails"
+  gem.add_dependency "nokogiri"
 
   gem.add_development_dependency "rspec-rails"
-  gem.add_development_dependency "nokogiri"
   gem.add_development_dependency "capybara", "~> 1.1.2"
 end
