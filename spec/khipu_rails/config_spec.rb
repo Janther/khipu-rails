@@ -42,13 +42,13 @@ describe KhipuRails::Config do
       KhipuRails.config.receivers.keys.first.should == '123'
       KhipuRails.config.receivers.values.first.should == '1234567890asdfghjkl'
       KhipuRails.config.receivers.keys.last.should == '321'
-      KhipuRails.config.receivers.values.first.should == 'lkjhgfdsa0987654321'
+      KhipuRails.config.receivers.values.last.should == 'lkjhgfdsa0987654321'
       KhipuRails.config.receivers['123'].should == '1234567890asdfghjkl'
       KhipuRails.config.receivers['321'].should == 'lkjhgfdsa0987654321'
     end
 
     it 'adds button_image key/value pairs' do
-      KhipuRails.config.button_images.keys.last.should == 'my_button'
+      KhipuRails.config.button_images.keys.last.should == :my_button
       KhipuRails.config.button_images.values.last.should == 'http://my_site.cl/my_button.png'
       KhipuRails.config.button_images[:my_button].should == 'http://my_site.cl/my_button.png'
     end
@@ -58,7 +58,7 @@ describe KhipuRails::Config do
     end
 
     it 'sets defaults' do
-      KhipuRails.config.defaults[:subject].should == 'Compra de Puntos Cumplo'
+      KhipuRails.config.button_defaults[:subject].should == 'Compra de Puntos Cumplo'
     end
   end
 end
