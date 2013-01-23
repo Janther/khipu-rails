@@ -9,14 +9,10 @@ module KhipuRails
                              payer_email:    '',
                              picture_url:    '',
                              custom:         '',
-                             button_image:   '50x25',                    #Default Button Image
-                             receiver_id:    KhipuRails::Config.user_id, #Loads user id from configuration
-                             secret:         KhipuRails::Config.api_key  #Loads api key from configuration
+                             button_image:   '50x25',                               #Default Button Image
+                             receiver_id:    KhipuRails.config.receivers.keys.first #Loads first receiver from configuration by default
 
-      options[:subject] = subject #Adds the subject param to the options for khipu_hash
-      options[:amount]  = amount  #Adds the amount param to the options for khipu_hash
-
-      button_image = KhipuRails::Config.khipu_images()[options[:button_image]] || options[:button_image]
+      button_image = KhipuRails.config.button_images()[options[:button_image]] || options[:button_image]
 
       form_tag 'https://khipu.com/payment/api/createPaymentPage', authenticity_token: false do
         [].tap do |i|
