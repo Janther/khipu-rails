@@ -12,6 +12,13 @@ Add to your Gemfile and run the `bundle` command to install it.
 gem 'khipu-rails'
 ```
 
+If you want to work with the gem in development, you can allways use the git repository.
+```ruby
+gem 'khipu-rails', :git => "http://github.com/Janther/khipu-rails"
+```
+
+## Configuration
+
 Create an initializer with the following code.
 ```ruby
 KhipuRails::Config.user_id = ID
@@ -66,6 +73,33 @@ Options:
 **200x75**: ![200x75 Button](https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png)
 
 # TODO:
+## Configuration v2
+Version 0.0.2 will have a configure method much more flexible and powerfull
+```ruby
+KhipuRails.configure do |config|
+  ##
+  # Use register_receivers to set one or more receivers to the gem.
+  # Each receiver is key/value pair
+  # Use this method if you don't want to have a 40 char long string on the view or controler.
+  ##
+  config.register_receivers "receiver1_id" => "receiver1_key", "receiver2_id" => "receiver2_key"
+
+  ##
+  # Use register_button_image to set one or more urls for the custom button images you might have.
+  # Khipu's images are already registered.
+  # Each button image is key/value pair
+  # The same as with the receivers registration, use this method as a shortcut for long urls on your view.
+  ##
+  config.register_button_image :shortcut => "url"
+
+  ##
+  # The method set_defaults will give you control of the default values the helper khipu_button uses.
+  ##
+  config.set_defaults :variable_name => variable_value
+end
+```
+
+## New Features
 
 ### khipu_button v2
 **khipu_button subject, amount, options = {}, &block**
