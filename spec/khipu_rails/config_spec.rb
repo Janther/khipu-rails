@@ -26,15 +26,15 @@ describe KhipuRails::Config do
     end
 
     it 'sets defaults' do
-      KhipuRails.config.defaults[:subject].should == ''
+      KhipuRails.config.button_defaults[:subject].should == ''
     end
   end
   context "Full Configuration" do
     before :all do
       KhipuRails.configure do |config|
-        config.receivers.merge '123' => '1234567890asdfghjkl', '321' => 'lkjhgfdsa0987654321'
-        config.button_images.merge my_button: 'http://my_site.cl/my_button.png'
-        config.defaults.merge subject: 'Compra de Puntos Cumplo',
+        config.receivers.merge! '123' => '1234567890asdfghjkl', '321' => 'lkjhgfdsa0987654321'
+        config.button_images.merge! my_button: 'http://my_site.cl/my_button.png'
+        config.button_defaults.merge! subject: 'Compra de Puntos Cumplo',
       end
     end
 
