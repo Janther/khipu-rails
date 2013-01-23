@@ -82,7 +82,7 @@ KhipuRails.configure do |config|
   # Each receiver is key/value pair
   # Use this method if you don't want to have a 40 char long string on the view or controler.
   ##
-  config.receivers.merge "receiver1_id" => "receiver1_key",
+  config.receivers.merge! "receiver1_id" => "receiver1_key",
                          "receiver2_id" => "receiver2_key",
                          ...
 
@@ -92,12 +92,12 @@ KhipuRails.configure do |config|
   # Each button image is key/value pair
   # The same as with the receivers registration, use this method as a shortcut for long urls on your view.
   ##
-  config.button_images.merge :shortcut => "url"
+  config.button_images.merge! :shortcut => "url"
 
   ##
   # The hash defaults can also be modified, giving you control of the default values the helper khipu_button uses.
   ##
-  config.button_defaults.merge :variable_name => variable_value
+  config.button_defaults.merge! :variable_name => variable_value
 end
 ```
 
