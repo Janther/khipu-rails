@@ -1,7 +1,12 @@
 module KhipuRails
-  class Config
-    def self.khipu_images
-      {
+  class Config < Struct.new(:receivers, :button_images, :button_defaults)
+
+    def self.default
+      config = new
+
+      config.receivers = {}
+
+      config.button_images = {
         "50x25"    => "https://s3.amazonaws.com/static.khipu.com/buttons/50x25.png",
         "100x25"   => "https://s3.amazonaws.com/static.khipu.com/buttons/100x25.png",
         "100x50"   => "https://s3.amazonaws.com/static.khipu.com/buttons/100x50.png",
@@ -12,22 +17,22 @@ module KhipuRails
         "200x50"   => "https://s3.amazonaws.com/static.khipu.com/buttons/200x50.png",
         "200x75"   => "https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png"
       }
+
+      config.button_defaults = {
+        subject:        '',
+        amount:          1,
+        body:           '',
+        return_url:     '',
+        cancel_url:     '',
+        transaction_id: '',
+        payer_email:    '',
+        picture_url:    '',
+        custom:         '',
+        button_image:   '50x25'
+      }
+
+      config
     end
 
-    def self.user_id= value
-      @@user_id = value
-    end
-
-    def self.api_key= value
-      @@api_key = value
-    end
-
-    def self.user_id
-      @@user_id
-    end
-
-    def self.api_key
-      @@api_key
-    end
   end
 end
