@@ -78,24 +78,26 @@ Version 0.0.2 will have a configure method much more flexible and powerfull
 ```ruby
 KhipuRails.configure do |config|
   ##
-  # Use register_receivers to set one or more receivers to the gem.
+  # Use receivers to set one or more receivers to the gem.
   # Each receiver is key/value pair
   # Use this method if you don't want to have a 40 char long string on the view or controler.
   ##
-  config.register_receivers "receiver1_id" => "receiver1_key", "receiver2_id" => "receiver2_key"
+  config.receivers.merge "receiver1_id" => "receiver1_key",
+                         "receiver2_id" => "receiver2_key",
+                         ...
 
   ##
-  # Use register_button_image to set one or more urls for the custom button images you might have.
+  # Use button_images to set one or more urls for the custom button images you might have.
   # Khipu's images are already registered.
   # Each button image is key/value pair
   # The same as with the receivers registration, use this method as a shortcut for long urls on your view.
   ##
-  config.register_button_image :shortcut => "url"
+  config.button_images.merge :shortcut => "url"
 
   ##
-  # The method set_defaults will give you control of the default values the helper khipu_button uses.
+  # The hash defaults can also be modified, giving you control of the default values the helper khipu_button uses.
   ##
-  config.set_defaults :variable_name => variable_value
+  config.button_defaults.merge :variable_name => variable_value
 end
 ```
 
