@@ -3,6 +3,9 @@ require 'spec_helper'
 
 describe KhipuRails::ButtonHelper do
   before :all do
+    KhipuRails.configure do |config|
+      config.receivers.merge! "123" => '1234567890asdfghjkl'
+    end
     @view = ActionView::Base.new
   end
 
@@ -20,14 +23,14 @@ describe KhipuRails::ButtonHelper do
 
   context "given a form with minimal data was generated, it" do
     before :all do
-      @receiver_id = KhipuRails::Config.user_id
-      @secret = KhipuRails::Config.api_key
+      @receiver_id = KhipuRails.config.receivers.keys.first
+      @secret = KhipuRails.config.receivers[@receiver_id]
       @button = Nokogiri::HTML.parse(@view.khipu_button "minimal", 2000)
     end
 
     it "has an input called reciever_id" do
       input = @button.css('form input[name=receiver_id]')
-      input.attribute('value').value.to_i.should == @receiver_id
+      input.attribute('value').value.should == @receiver_id
     end
 
     it "has an input called subject" do
@@ -104,7 +107,7 @@ describe KhipuRails::ButtonHelper do
 
   context "given a form with full optional data was generated, it" do
     before :all do
-      @receiver_id = 4321
+      @receiver_id = "4321"
       @secret = 'lkjhgfdsa0987654321'
       @button = Nokogiri::HTML.parse(@view.khipu_button "full", 1_000_000,
         body:           'This is a full body',
@@ -122,7 +125,7 @@ describe KhipuRails::ButtonHelper do
 
     it "has an input called reciever_id" do
       input = @button.css('form input[name=receiver_id]')
-      input.attribute('value').value.to_i.should == @receiver_id
+      input.attribute('value').value.should == @receiver_id
     end
 
     it "has an input called subject" do
