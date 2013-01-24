@@ -17,7 +17,7 @@ If you want to work with the gem in development, you can allways use the git rep
 gem 'khipu-rails', :git => "http://github.com/Janther/khipu-rails"
 ```
 
-## Configuration
+## Configuration v0.0.1
 
 Create an initializer with the following code.
 ```ruby
@@ -26,6 +26,36 @@ KhipuRails::Config.api_key = API KEY
 ```
 
 *ID and API KEY can be found [here](https://khipu.com/merchant/profile#instant-notification-data)*
+
+
+## Configuration v0.0.2alpha
+Version 0.0.2 will have a configure method much more flexible and powerfull
+```ruby
+KhipuRails.configure do |config|
+  ##
+  # Use receivers to set one or more receivers to the gem.
+  # Each receiver is key/value pair
+  # Use this method if you don't want to have a 40 char long string on the view or controler.
+  ##
+  config.receivers.merge! "receiver1_id" => "receiver1_key",
+                         "receiver2_id" => "receiver2_key",
+                         ...
+
+  ##
+  # Use button_images to set one or more urls for the custom button images you might have.
+  # Khipu's images are already registered.
+  # Each button image is key/value pair
+  # The same as with the receivers registration, use this method as a shortcut for long urls on your view.
+  ##
+  config.button_images.merge! :shortcut => "url"
+
+  ##
+  # The hash defaults can also be modified, giving you control of the default values the helper khipu_button uses.
+  ##
+  config.button_defaults.merge! :variable_name => variable_value
+end
+```
+*receiver_id and receiver_key can be found [here](https://khipu.com/merchant/profile#instant-notification-data)*
 
 # Features
 
@@ -73,33 +103,6 @@ Options:
 **200x75**: ![200x75 Button](https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png)
 
 # TODO:
-## Configuration v2
-Version 0.0.2 will have a configure method much more flexible and powerfull
-```ruby
-KhipuRails.configure do |config|
-  ##
-  # Use receivers to set one or more receivers to the gem.
-  # Each receiver is key/value pair
-  # Use this method if you don't want to have a 40 char long string on the view or controler.
-  ##
-  config.receivers.merge! "receiver1_id" => "receiver1_key",
-                         "receiver2_id" => "receiver2_key",
-                         ...
-
-  ##
-  # Use button_images to set one or more urls for the custom button images you might have.
-  # Khipu's images are already registered.
-  # Each button image is key/value pair
-  # The same as with the receivers registration, use this method as a shortcut for long urls on your view.
-  ##
-  config.button_images.merge! :shortcut => "url"
-
-  ##
-  # The hash defaults can also be modified, giving you control of the default values the helper khipu_button uses.
-  ##
-  config.button_defaults.merge! :variable_name => variable_value
-end
-```
 
 ## New Features
 
