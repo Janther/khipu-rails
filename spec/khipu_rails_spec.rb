@@ -7,6 +7,7 @@ describe KhipuRails do
   end
 
   it "Returns a Hash with the default values" do
+    KhipuRails.config = nil
     KhipuRails.configure do |config|
       config.receivers.merge! "123" => '1234567890asdfghjkl'
     end

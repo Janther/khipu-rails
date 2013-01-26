@@ -3,6 +3,7 @@ require 'spec_helper'
 
 describe KhipuRails::ButtonHelper do
   before :all do
+    KhipuRails.config = nil
     KhipuRails.configure do |config|
       config.receivers.merge! "123" => '1234567890asdfghjkl'
     end

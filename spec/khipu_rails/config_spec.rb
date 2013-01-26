@@ -3,9 +3,8 @@ require 'spec_helper'
 
 describe KhipuRails::Config do
   context "Empty Configuration" do
-    before :all do
-      KhipuRails.configure do |config|
-      end
+    before :each do
+      KhipuRails.config = nil
     end
 
     it 'has no receiver key/value pairs' do
@@ -31,6 +30,7 @@ describe KhipuRails::Config do
   end
   context "Full Configuration" do
     before :all do
+      KhipuRails.config = nil
       KhipuRails.configure do |config|
         config.receivers.merge! '123' => '1234567890asdfghjkl', '321' => 'lkjhgfdsa0987654321'
         config.button_images.merge! my_button: 'http://my_site.cl/my_button.png'
