@@ -34,7 +34,7 @@ describe KhipuRails::Config do
       KhipuRails.configure do |config|
         config.receivers.merge! '123' => '1234567890asdfghjkl', '321' => 'lkjhgfdsa0987654321'
         config.button_images.merge! my_button: 'http://my_site.cl/my_button.png'
-        config.button_defaults.merge! subject: 'Compra de Puntos Cumplo',
+        config.button_defaults.merge! subject: 'Compra de Puntos Cumplo'
       end
     end
 
