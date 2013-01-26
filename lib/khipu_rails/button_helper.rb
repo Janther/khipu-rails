@@ -45,7 +45,7 @@ module KhipuRails
         }
 
         [fields].tap do |i|
-          i << hidden_field_tag(:hash, khipu_hash(hash_fields))
+          i << hidden_field_tag(:hash, KhipuRails.khipu_hash(hash_fields))
           i << image_submit_tag(button_image, name: :submit)
         end.join.html_safe
       end
@@ -54,23 +54,6 @@ module KhipuRails
     private
     def get_value inputs, attribute
       inputs.css("input[name=#{attribute}]").attribute('value').value
-    end
-
-    def khipu_hash options = {}
-      raw = [
-        "receiver_id=#{options[:receiver_id]}",
-        "subject=#{options[:subject]}",
-        "body=#{options[:body]}",
-        "amount=#{options[:amount]}",
-        "return_url=#{options[:return_url]}",
-        "cancel_url=#{options[:cancel_url]}",
-        "custom=#{options[:custom]}",
-        "transaction_id=#{options[:transaction_id]}",
-        "picture_url=#{options[:picture_url]}",
-        "payer_email=#{options[:payer_email]}",
-        "secret=#{options[:secret]}"
-      ].join('&')
-      Digest::SHA1.hexdigest raw
     end
   end
 end
