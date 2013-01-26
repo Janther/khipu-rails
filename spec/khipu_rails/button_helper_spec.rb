@@ -107,7 +107,7 @@ describe KhipuRails::ButtonHelper do
 
   context "given a form with full optional data was generated, it" do
     before :all do
-      @receiver_id = "4321"
+      @receiver_id = 4321
       @secret = 'lkjhgfdsa0987654321'
       @button = Nokogiri::HTML.parse(@view.khipu_button "full", 1_000_000,
         body:           'This is a full body',
@@ -125,7 +125,7 @@ describe KhipuRails::ButtonHelper do
 
     it "has an input called reciever_id" do
       input = @button.css('form input[name=receiver_id]')
-      input.attribute('value').value.should == @receiver_id
+      input.attribute('value').value.should == @receiver_id.to_s
     end
 
     it "has an input called subject" do
