@@ -1,11 +1,13 @@
 module KhipuRails
-
   extend self
 
   def configure
-    @config = Config.default
-    yield @config
+    yield config
   end
 
-  attr_accessor :config
+  def config
+    @config ||= Config.default
+  end
+
+  attr_writer :config
 end
