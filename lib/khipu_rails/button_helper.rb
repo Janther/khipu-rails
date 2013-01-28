@@ -41,7 +41,7 @@ module KhipuRails
           transaction_id: get_value(ng, :transaction_id),
           picture_url: get_value(ng, :picture_url),
           payer_email: get_value(ng, :payer_email),
-          secret: options[:secret] || KhipuRails.config.receivers[options[:receiver_id]]
+          secret: options[:secret]
         }
 
         [fields].tap do |i|
