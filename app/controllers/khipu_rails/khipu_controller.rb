@@ -1,4 +1,6 @@
-class KhipuRails::KhipuController < KhipuRails::ApplicationController
-  def payment
+module KhipuRails
+  class KhipuController < KhipuRails::ApplicationController
+    def payment
+    end
   end
 end
