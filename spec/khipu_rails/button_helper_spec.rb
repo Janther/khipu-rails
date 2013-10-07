@@ -185,7 +185,7 @@ describe KhipuRails::ButtonHelper do
     end
 
     it "allows developers to provide their own button_image" do
-      button = Nokogiri::HTML.parse(@view.khipu_button)
+      button = Nokogiri::HTML.parse(@view.khipu_button "image", 1)
       input = button.css('form input[name=receiver_id]')
     end
   end

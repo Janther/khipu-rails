@@ -12,15 +12,15 @@ describe KhipuRails::Config do
     end
 
     it 'has button_image key/value pairs provided by Khipu' do
-      KhipuRails.config.button_images["50x25"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/50x25.png"
-      KhipuRails.config.button_images["100x25"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/100x25.png"
-      KhipuRails.config.button_images["100x50"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/100x50.png"
-      KhipuRails.config.button_images["150x25"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/150x25.png"
-      KhipuRails.config.button_images["150x50"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/150x50.png"
-      KhipuRails.config.button_images["150x75"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/150x75.png"
+      KhipuRails.config.button_images["50x25"].should    == "https://s3.amazonaws.com/static.khipu.com/buttons/50x25.png"
+      KhipuRails.config.button_images["100x25"].should   == "https://s3.amazonaws.com/static.khipu.com/buttons/100x25.png"
+      KhipuRails.config.button_images["100x50"].should   == "https://s3.amazonaws.com/static.khipu.com/buttons/100x50.png"
+      KhipuRails.config.button_images["150x25"].should   == "https://s3.amazonaws.com/static.khipu.com/buttons/150x25.png"
+      KhipuRails.config.button_images["150x50"].should   == "https://s3.amazonaws.com/static.khipu.com/buttons/150x50.png"
+      KhipuRails.config.button_images["150x75"].should   == "https://s3.amazonaws.com/static.khipu.com/buttons/150x75.png"
       KhipuRails.config.button_images["150x75-B"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/150x75-B.png"
-      KhipuRails.config.button_images["200x50"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/200x50.png"
-      KhipuRails.config.button_images["200x75"].should == "https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png"
+      KhipuRails.config.button_images["200x50"].should   == "https://s3.amazonaws.com/static.khipu.com/buttons/200x50.png"
+      KhipuRails.config.button_images["200x75"].should   == "https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png"
       KhipuRails.config.button_images.count.should == 9
     end
 
