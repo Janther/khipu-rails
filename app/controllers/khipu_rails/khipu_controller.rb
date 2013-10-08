@@ -14,7 +14,7 @@ module KhipuRails
         notification_signature: params[:notification_signature]
       }
 
-      valid = KhipuRails::NotificationValidator.validate(@notification, :webservice)
+      valid = KhipuRails::NotificationValidator.is_valid?(@notification, :webservice)
       # if valid
       # else
       # end
