@@ -90,12 +90,16 @@ Options:
 
 **200x75**: ![200x75 Button](https://s3.amazonaws.com/static.khipu.com/buttons/200x75.png)
 
+## Validation of payment notifications *(Waiting for Khipu to release developer accounts.)*
+
+If you provide an URL for Khipu to deliver [notifications](https://khipu.com/page/api#notification-instantanea) on succesfull payments, this gem provides a validation method to prevent forgery of notifications.
+
 ### khipu_validation
 
 **KhipuRails::NotificationValidator.is_valid? notification, mode = :local**
 
 * **notification**: The POST params delivered by Khipu.
-* **mode**: Whether the validation should be done at the **:local** [local machine](https://khipu.com/page/api#validacion-local) or by **:webservice** [Khipu's API](https://khipu.com/page/api#validacion-web-service).
+* **mode**: Whether the validation should be done at the **[:local](https://khipu.com/page/api#validacion-local)** or by **[:webservice](https://khipu.com/page/api#validacion-web-service)**.
 
 # TODO:
 
@@ -118,11 +122,6 @@ Block
 **khipu_hash options = {}**
 
 Generator of the Khipu hash made public so you can include it in an action when **:hash_url** is given to the form.
-
-
-## Validation of payment notifications *(Waiting for Khipu to release developer accounts.)*
-
-If you provide an URL for Khipu to deliver [notifications](https://khipu.com/page/api#notification-instantanea) on succesfull payments, this gem provides a validation method to prevent forgery of notifications.
 
 ## Contributing
 
