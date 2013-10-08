@@ -1,5 +1,7 @@
 require "uri"
 require "httpclient"
+require "openssl"
+require "base64"
 
 module KhipuRails
   class NotificationValidator
@@ -22,16 +24,13 @@ module KhipuRails
     end
 
     def self.local data, signature
-      cert_path = [KhipuRails.root, 'config', 'khipu', Rails.env.eql?('production') ? 'khipu.pem.cer' : 'khipu_dev.pem.cer'].join('/')
-      cert      = OpenSSL::X509::Certificate.new File.read cert_path
-      key       = cert.public_key
+      cert_path   = [KhipuRails.root, 'config', 'khipu', Rails.env.eql?('production') ? 'khipu.pem.cer' : 'khipu_dev.pem.cer'].join('/')
+      cert        = OpenSSL::X509::Certificate.new File.read cert_path
+      pkey        = cert.public_key
       to_validate = data.map{|key, val| key + "=" + val}.join("&")
-      digest = OpenSSL::Digest::SHA256.new
-      puts cert_path
-      puts key
-      puts signature["notification_signature"]
-      puts to_validate
-      key.verify digest, signature["notification_signature"], to_validate
+      signature   = Base64.decode64(signature["notification_signature"])
+      digest      = OpenSSL::Digest::SHA1.new
+      pkey.verify digest, signature, to_validate
     end
 
     def self.webservice data, signature
