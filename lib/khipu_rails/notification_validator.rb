@@ -5,7 +5,7 @@ require "base64"
 
 module KhipuRails
   class NotificationValidator
-    def self.validate notification, mode = :webservice
+    def self.validate notification, mode = :local
       data = {
         "api_version"     => notification[:api_version],
         "receiver_id"     => notification[:receiver_id],
