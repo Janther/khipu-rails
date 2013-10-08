@@ -4,7 +4,7 @@ module KhipuRails
     def self.default
       config = new
 
-      config.receivers = {}
+      config.receivers = []
 
       config.button_images = {
         "50x25"    => "https://s3.amazonaws.com/static.khipu.com/buttons/50x25.png",
@@ -34,5 +34,8 @@ module KhipuRails
       config
     end
 
+    def add_receiver id, key, mode = :prod
+      self.receivers << KhipuRails::Receiver.new(id, key, mode)
+    end
   end
 end
