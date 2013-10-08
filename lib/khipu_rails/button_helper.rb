@@ -9,8 +9,8 @@ module KhipuRails
                              payer_email:    '',
                              picture_url:    '',
                              custom:         '',
-                             button_image:   '50x25',                               #Default Button Image
-                             receiver_id:    KhipuRails.config.receivers.keys.first #Loads first receiver from configuration by default
+                             button_image:   '50x25',                             #Default Button Image
+                             receiver_id:    KhipuRails.config.receivers.first.id #Loads first receiver from configuration by default
 
       button_image = KhipuRails.config.button_images()[options[:button_image]] || options[:button_image]
 

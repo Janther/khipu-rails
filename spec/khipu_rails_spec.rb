@@ -9,13 +9,13 @@ describe KhipuRails do
   it "Returns a uses the correct parameters for the Hash with the default values" do
     KhipuRails.config = nil
     KhipuRails.configure do |config|
-      config.receivers.merge! "123" => '1234567890asdfghjkl'
+      config.add_receiver "123", '1234567890asdfghjkl', :dev
     end
 
     receiver = KhipuRails.config.receivers.first
     values = KhipuRails.config.button_defaults
 
-    raw = "receiver_id=#{receiver.first}&"
+    raw = "receiver_id=#{receiver.id}&"
     raw += "subject=#{values[:subject]}&"
     raw += "body=#{values[:body]}&"
     raw += "amount=#{values[:amount]}&"
@@ -25,7 +25,7 @@ describe KhipuRails do
     raw += "transaction_id=#{values[:transaction_id]}&"
     raw += "picture_url=#{values[:picture_url]}&"
     raw += "payer_email=#{values[:payer_email]}&"
-    raw += "secret=#{receiver.last}"
+    raw += "secret=#{receiver.key}"
 
     KhipuRails.raw_hash.should == raw
   end
@@ -33,13 +33,13 @@ describe KhipuRails do
   it "Returns a Hash with the default values" do
     KhipuRails.config = nil
     KhipuRails.configure do |config|
-      config.receivers.merge! "123" => '1234567890asdfghjkl'
+      config.add_receiver "123", '1234567890asdfghjkl', :dev
     end
 
     receiver = KhipuRails.config.receivers.first
     values = KhipuRails.config.button_defaults
 
-    raw = "receiver_id=#{receiver.first}&"
+    raw = "receiver_id=#{receiver.id}&"
     raw += "subject=#{values[:subject]}&"
     raw += "body=#{values[:body]}&"
     raw += "amount=#{values[:amount]}&"
@@ -49,7 +49,7 @@ describe KhipuRails do
     raw += "transaction_id=#{values[:transaction_id]}&"
     raw += "picture_url=#{values[:picture_url]}&"
     raw += "payer_email=#{values[:payer_email]}&"
-    raw += "secret=#{receiver.last}"
+    raw += "secret=#{receiver.key}"
 
     KhipuRails.khipu_hash.should == Digest::SHA1.hexdigest(raw)
   end
