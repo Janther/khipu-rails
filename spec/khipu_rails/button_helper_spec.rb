@@ -5,7 +5,7 @@ describe KhipuRails::ButtonHelper do
   before :all do
     KhipuRails.config = nil
     KhipuRails.configure do |config|
-      config.receivers.merge! "123" => '1234567890asdfghjkl'
+      config.add_receiver "123", '1234567890asdfghjkl', :dev
     end
     @view = ActionView::Base.new
   end
@@ -24,8 +24,8 @@ describe KhipuRails::ButtonHelper do
 
   context "given a form with minimal data was generated, it" do
     before :all do
-      @receiver_id = KhipuRails.config.receivers.keys.first
-      @secret = KhipuRails.config.receivers[@receiver_id]
+      @receiver_id = KhipuRails.config.receivers.first.id
+      @secret = KhipuRails.config.receivers.first.key
       @button = Nokogiri::HTML.parse(@view.khipu_button "minimal", 2000)
     end
 
@@ -177,8 +177,8 @@ describe KhipuRails::ButtonHelper do
     before :all do
       KhipuRails.config = nil
       KhipuRails.configure do |config|
-        config.receivers.merge! "123" => '1234567890asdfghjkl',
-                                "321" => 'lkjhgfdsa0987654321'
+        config.add_receiver "123", '1234567890asdfghjkl', :dev
+        config.add_receiver "321", 'lkjhgfdsa0987654321', :dev
         config.button_defaults.merge! subject: 'Compra de Puntos Cumplo',
                                       amount: 3000
       end

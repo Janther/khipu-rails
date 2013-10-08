@@ -7,7 +7,7 @@ describe KhipuRails::Config do
       KhipuRails.config = nil
     end
 
-    it 'has no receiver key/value pairs' do
+    it 'has no receiver' do
       KhipuRails.config.receivers.count.should == 0
     end
 
@@ -32,19 +32,20 @@ describe KhipuRails::Config do
     before :all do
       KhipuRails.config = nil
       KhipuRails.configure do |config|
-        config.receivers.merge! '123' => '1234567890asdfghjkl', '321' => 'lkjhgfdsa0987654321'
+        config.add_receiver '123', '1234567890asdfghjkl', :dev
+        config.add_receiver '321', 'lkjhgfdsa0987654321', :dev
         config.button_images.merge! my_button: 'http://my_site.cl/my_button.png'
         config.button_defaults.merge! subject: 'Compra de Puntos Cumplo'
       end
     end
 
     it 'adds receiver key/value pairs' do
-      KhipuRails.config.receivers.keys.first.should == '123'
-      KhipuRails.config.receivers.values.first.should == '1234567890asdfghjkl'
-      KhipuRails.config.receivers.keys.last.should == '321'
-      KhipuRails.config.receivers.values.last.should == 'lkjhgfdsa0987654321'
-      KhipuRails.config.receivers['123'].should == '1234567890asdfghjkl'
-      KhipuRails.config.receivers['321'].should == 'lkjhgfdsa0987654321'
+      KhipuRails.config.receivers.first.id.should == '123'
+      KhipuRails.config.receivers.first.key.should == '1234567890asdfghjkl'
+      KhipuRails.config.receivers.last.id.should == '321'
+      KhipuRails.config.receivers.last.key.should == 'lkjhgfdsa0987654321'
+      KhipuRails.config.receivers.find{|r| r.id == '123'}.key.should == '1234567890asdfghjkl'
+      KhipuRails.config.receivers.find{|r| r.id == '321'}.key.should == 'lkjhgfdsa0987654321'
     end
 
     it 'adds button_image key/value pairs' do
