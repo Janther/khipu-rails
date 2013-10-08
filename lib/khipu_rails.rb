@@ -9,6 +9,7 @@ module KhipuRails
   def config
     @config ||= Config.default
   end
+
   attr_writer :config
 
   def khipu_hash options = {}
@@ -18,14 +19,16 @@ module KhipuRails
   def raw_hash options = {}
     options.reverse_merge! KhipuRails.config.button_defaults
 
-    if options[:receiver_id]
-      receiver = [options[:receiver_id], (options[:secret] || KhipuRails.config.receivers[options[:receiver_id]])]
+    if options[:receiver_id].present? and options[:secret].present?
+      receiver = KhipuRails::Receiver.new options[:receiver_id], options[:secret]
+    elsif options[:receiver_id].present?
+      receiver = KhipuRails.config.receivers.find{|r| r.id == options[:receiver_id]}
     else
       receiver = KhipuRails.config.receivers.first
     end
 
     raw = [
-      "receiver_id=#{receiver.first}",
+      "receiver_id=#{receiver.id}",
       "subject=#{options[:subject]}",
       "body=#{options[:body]}",
       "amount=#{options[:amount]}",
@@ -35,7 +38,7 @@ module KhipuRails
       "transaction_id=#{options[:transaction_id]}",
       "picture_url=#{options[:picture_url]}",
       "payer_email=#{options[:payer_email]}",
-      "secret=#{receiver.last}"
+      "secret=#{receiver.key}"
     ].join('&')
 
     raw
