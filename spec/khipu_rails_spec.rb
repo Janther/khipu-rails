@@ -15,16 +15,19 @@ describe KhipuRails do
     receiver = KhipuRails.config.receivers.first
     values = KhipuRails.config.button_defaults
 
-    raw = "receiver_id=#{receiver.id}&"
+    raw  = "receiver_id=#{receiver.id}&"
     raw += "subject=#{values[:subject]}&"
     raw += "body=#{values[:body]}&"
     raw += "amount=#{values[:amount]}&"
+    raw += "payer_email=#{values[:payer_email]}&"
+    raw += "bank_id=#{values[:bank_id]}&"
+    raw += "expires_date=#{values[:expires_date]}&"
+    raw += "transaction_id=#{values[:transaction_id]}&"
+    raw += "custom=#{values[:custom]}&"
+    raw += "notify_url=#{values[:notify_url]}&"
     raw += "return_url=#{values[:return_url]}&"
     raw += "cancel_url=#{values[:cancel_url]}&"
-    raw += "custom=#{values[:custom]}&"
-    raw += "transaction_id=#{values[:transaction_id]}&"
     raw += "picture_url=#{values[:picture_url]}&"
-    raw += "payer_email=#{values[:payer_email]}&"
     raw += "secret=#{receiver.key}"
 
     KhipuRails.raw_hash.should == raw
@@ -39,18 +42,21 @@ describe KhipuRails do
     receiver = KhipuRails.config.receivers.first
     values = KhipuRails.config.button_defaults
 
-    raw = "receiver_id=#{receiver.id}&"
+    raw  = "receiver_id=#{receiver.id}&"
     raw += "subject=#{values[:subject]}&"
     raw += "body=#{values[:body]}&"
     raw += "amount=#{values[:amount]}&"
+    raw += "payer_email=#{values[:payer_email]}&"
+    raw += "bank_id=#{values[:bank_id]}&"
+    raw += "expires_date=#{values[:expires_date]}&"
+    raw += "transaction_id=#{values[:transaction_id]}&"
+    raw += "custom=#{values[:custom]}&"
+    raw += "notify_url=#{values[:notify_url]}&"
     raw += "return_url=#{values[:return_url]}&"
     raw += "cancel_url=#{values[:cancel_url]}&"
-    raw += "custom=#{values[:custom]}&"
-    raw += "transaction_id=#{values[:transaction_id]}&"
     raw += "picture_url=#{values[:picture_url]}&"
-    raw += "payer_email=#{values[:payer_email]}&"
     raw += "secret=#{receiver.key}"
 
-    KhipuRails.khipu_hash.should == Digest::SHA1.hexdigest(raw)
+    KhipuRails.khipu_hash.should == Digest::SHA256.hexdigest(raw)
   end
 end

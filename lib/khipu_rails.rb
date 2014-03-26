@@ -13,7 +13,8 @@ module KhipuRails
   attr_writer :config
 
   def khipu_hash options = {}
-    Digest::SHA1.hexdigest raw_hash(options)
+    OpenSSL::HMAC.digest('sha256', raw_hash(options), signature)
+    Digest::SHA256.hexdigest raw_hash(options)
   end
 
   def raw_hash options = {}
@@ -32,12 +33,15 @@ module KhipuRails
       "subject=#{options[:subject]}",
       "body=#{options[:body]}",
       "amount=#{options[:amount]}",
+      "payer_email=#{options[:payer_email]}",
+      "bank_id=#{options[:bank_id]}",
+      "expires_date=#{options[:expires_date]}",
+      "transaction_id=#{options[:transaction_id]}",
+      "custom=#{options[:custom]}",
+      "notify_url=#{options[:notify_url]}",
       "return_url=#{options[:return_url]}",
       "cancel_url=#{options[:cancel_url]}",
-      "custom=#{options[:custom]}",
-      "transaction_id=#{options[:transaction_id]}",
       "picture_url=#{options[:picture_url]}",
-      "payer_email=#{options[:payer_email]}",
       "secret=#{receiver.key}"
     ].join('&')
 
