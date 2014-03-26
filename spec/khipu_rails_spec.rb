@@ -9,7 +9,7 @@ describe KhipuRails do
   it "Returns a uses the correct parameters for the Hash with the default values" do
     KhipuRails.config = nil
     KhipuRails.configure do |config|
-      config.add_receiver "123", '1234567890asdfghjkl', :dev
+      config.add_receiver "1392", 'b174c94de0ec3ce4f1c3156e309de45e8ce0f9ef', :dev
     end
 
     receiver = KhipuRails.config.receivers.first
@@ -36,7 +36,7 @@ describe KhipuRails do
   it "Returns a Hash with the default values" do
     KhipuRails.config = nil
     KhipuRails.configure do |config|
-      config.add_receiver "123", '1234567890asdfghjkl', :dev
+      config.add_receiver "1392", 'b174c94de0ec3ce4f1c3156e309de45e8ce0f9ef', :dev
     end
 
     receiver = KhipuRails.config.receivers.first

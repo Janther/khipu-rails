@@ -5,7 +5,7 @@ describe KhipuRails::ButtonHelper do
   before :all do
     KhipuRails.config = nil
     KhipuRails.configure do |config|
-      config.add_receiver "123", '1234567890asdfghjkl', :dev
+      config.add_receiver "1392", 'b174c94de0ec3ce4f1c3156e309de45e8ce0f9ef', :dev
     end
     @view = ActionView::Base.new
   end
@@ -183,7 +183,7 @@ describe KhipuRails::ButtonHelper do
     before :all do
       KhipuRails.config = nil
       KhipuRails.configure do |config|
-        config.add_receiver "123", '1234567890asdfghjkl', :dev
+        config.add_receiver "1392", 'b174c94de0ec3ce4f1c3156e309de45e8ce0f9ef', :dev
         config.add_receiver "321", 'lkjhgfdsa0987654321', :dev
         config.button_defaults.merge! subject: 'Compra de Puntos Cumplo',
                                       amount: 3000
