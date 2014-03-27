@@ -13,20 +13,17 @@ module KhipuRails
   attr_writer :config
 
   def khipu_hash options = {}
-    OpenSSL::HMAC.digest('sha256', raw_hash(options), signature)
-    Digest::SHA256.hexdigest raw_hash(options)
+    options.reverse_merge! KhipuRails.config.button_defaults
+
+    receiver = load_receiver options
+
+    OpenSSL::HMAC.hexdigest('sha256', raw_hash(options), receiver.key)
   end
 
   def raw_hash options = {}
     options.reverse_merge! KhipuRails.config.button_defaults
 
-    if options[:receiver_id].present? and options[:secret].present?
-      receiver = KhipuRails::Receiver.new options[:receiver_id], options[:secret]
-    elsif options[:receiver_id].present?
-      receiver = KhipuRails.config.receivers.find{|r| r.id == options[:receiver_id]}
-    else
-      receiver = KhipuRails.config.receivers.first
-    end
+    receiver = load_receiver options
 
     raw = [
       "receiver_id=#{receiver.id}",
@@ -41,8 +38,7 @@ module KhipuRails
       "notify_url=#{options[:notify_url]}",
       "return_url=#{options[:return_url]}",
       "cancel_url=#{options[:cancel_url]}",
-      "picture_url=#{options[:picture_url]}",
-      "secret=#{receiver.key}"
+      "picture_url=#{options[:picture_url]}"
     ].join('&')
 
     raw
@@ -50,5 +46,19 @@ module KhipuRails
 
   def root
     File.expand_path '../..', __FILE__
+  end
+
+  private
+
+  def load_receiver options
+    if options[:receiver_id].present?
+      if options[:secret].present?
+        KhipuRails::Receiver.new options[:receiver_id], options[:secret]
+      else
+        KhipuRails.config.receivers.find{|r| r.id == options[:receiver_id]}
+      end
+    else
+      KhipuRails.config.receivers.first
+    end
   end
 end
