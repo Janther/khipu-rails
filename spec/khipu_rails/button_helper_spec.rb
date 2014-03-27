@@ -85,7 +85,7 @@ describe KhipuRails::ButtonHelper do
       raw += "return_url=#{attribute_value :return_url}&"
       raw += "cancel_url=#{attribute_value :cancel_url}&"
       raw += "picture_url=#{attribute_value :picture_url}"
-      attribute_value(:hash).should == OpenSSL::HMAC.hexdigest('sha256', raw, @secret)
+      attribute_value(:hash).should == OpenSSL::HMAC.hexdigest('sha256', @secret, raw)
     end
 
     it "has an image submit" do
@@ -168,7 +168,7 @@ describe KhipuRails::ButtonHelper do
       raw += "return_url=#{attribute_value :return_url}&"
       raw += "cancel_url=#{attribute_value :cancel_url}&"
       raw += "picture_url=#{attribute_value :picture_url}"
-      attribute_value(:hash).should == OpenSSL::HMAC.hexdigest('sha256', raw, @secret)
+      attribute_value(:hash).should == OpenSSL::HMAC.hexdigest('sha256', @secret, raw)
     end
 
     it "has an image submit" do

@@ -16,7 +16,7 @@ module KhipuRails
     options.reverse_merge! KhipuRails.config.button_defaults
 
     receiver = load_receiver options
-    OpenSSL::HMAC.hexdigest('sha256', raw_hash(options, receiver), receiver.key)
+    OpenSSL::HMAC.hexdigest('sha256', receiver.key, raw_hash(options, receiver))
   end
 
   def raw_hash options = {}, receiver = load_receiver(options)

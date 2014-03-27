@@ -55,6 +55,6 @@ describe KhipuRails do
     raw += "cancel_url=#{values[:cancel_url]}&"
     raw += "picture_url=#{values[:picture_url]}"
 
-    KhipuRails.khipu_hash.should == OpenSSL::HMAC.hexdigest('sha256', raw, receiver.key)
+    KhipuRails.khipu_hash.should == OpenSSL::HMAC.hexdigest('sha256', receiver.key, raw)
   end
 end
