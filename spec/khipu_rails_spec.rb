@@ -27,8 +27,7 @@ describe KhipuRails do
     raw += "notify_url=#{values[:notify_url]}&"
     raw += "return_url=#{values[:return_url]}&"
     raw += "cancel_url=#{values[:cancel_url]}&"
-    raw += "picture_url=#{values[:picture_url]}&"
-    raw += "secret=#{receiver.key}"
+    raw += "picture_url=#{values[:picture_url]}"
 
     KhipuRails.raw_hash.should == raw
   end
@@ -54,9 +53,8 @@ describe KhipuRails do
     raw += "notify_url=#{values[:notify_url]}&"
     raw += "return_url=#{values[:return_url]}&"
     raw += "cancel_url=#{values[:cancel_url]}&"
-    raw += "picture_url=#{values[:picture_url]}&"
-    raw += "secret=#{receiver.key}"
+    raw += "picture_url=#{values[:picture_url]}"
 
-    KhipuRails.khipu_hash.should == Digest::SHA256.hexdigest(raw)
+    KhipuRails.khipu_hash.should == OpenSSL::HMAC.hexdigest('sha256', raw, receiver.key)
   end
 end
