@@ -1,3 +1,3 @@
 module KhipuRails
-  VERSION = "0.0.2.alpha"
+  VERSION = "1.3.0"
 end

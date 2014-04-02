@@ -5,7 +5,7 @@ describe KhipuRails::ButtonHelper do
   before :all do
     KhipuRails.config = nil
     KhipuRails.configure do |config|
-      config.add_receiver "123", '1234567890asdfghjkl', :dev
+      config.add_receiver "1392", 'b174c94de0ec3ce4f1c3156e309de45e8ce0f9ef', :dev
     end
     @view = ActionView::Base.new
   end
@@ -13,7 +13,7 @@ describe KhipuRails::ButtonHelper do
   it "generates a form with the action provided by khipu" do
     button = Nokogiri::HTML.parse(@view.khipu_button "minimal", 2000)
     form = button.css('form')
-    form.attribute('action').value.should == 'https://khipu.com/payment/api/createPaymentPage'
+    form.attribute('action').value.should == 'https://khipu.com/api/1.3/createPaymentPage'
   end
 
   it "generates a form with the method post" do
@@ -72,18 +72,20 @@ describe KhipuRails::ButtonHelper do
     it "has an input called hash" do
       attribute_value(:hash, :type).should == 'hidden'
 
-      raw = "receiver_id=#{attribute_value :receiver_id}&"
+      raw  = "receiver_id=#{attribute_value :receiver_id}&"
       raw += "subject=#{attribute_value :subject}&"
       raw += "body=#{attribute_value :body}&"
       raw += "amount=#{attribute_value :amount}&"
+      raw += "payer_email=#{attribute_value :payer_email}&"
+      raw += "bank_id=#{attribute_value :bank_id}&"
+      raw += "expires_date=#{attribute_value :expires_date}&"
+      raw += "transaction_id=#{attribute_value :transaction_id}&"
+      raw += "custom=#{attribute_value :custom}&"
+      raw += "notify_url=#{attribute_value :notify_url}&"
       raw += "return_url=#{attribute_value :return_url}&"
       raw += "cancel_url=#{attribute_value :cancel_url}&"
-      raw += "custom=#{attribute_value :custom}&"
-      raw += "transaction_id=#{attribute_value :transaction_id}&"
-      raw += "picture_url=#{attribute_value :picture_url}&"
-      raw += "payer_email=#{attribute_value :payer_email}&"
-      raw += "secret=#{@secret}"
-      attribute_value(:hash).should == Digest::SHA1.hexdigest(raw)
+      raw += "picture_url=#{attribute_value :picture_url}"
+      attribute_value(:hash).should == OpenSSL::HMAC.hexdigest('sha256', @secret, raw)
     end
 
     it "has an image submit" do
@@ -153,18 +155,20 @@ describe KhipuRails::ButtonHelper do
     it "has an input called hash" do
       attribute_value(:hash, :type).should == 'hidden'
 
-      raw = "receiver_id=#{attribute_value :receiver_id}&"
+      raw  = "receiver_id=#{attribute_value :receiver_id}&"
       raw += "subject=#{attribute_value :subject}&"
       raw += "body=#{attribute_value :body}&"
       raw += "amount=#{attribute_value :amount}&"
+      raw += "payer_email=#{attribute_value :payer_email}&"
+      raw += "bank_id=#{attribute_value :bank_id}&"
+      raw += "expires_date=#{attribute_value :expires_date}&"
+      raw += "transaction_id=#{attribute_value :transaction_id}&"
+      raw += "custom=#{attribute_value :custom}&"
+      raw += "notify_url=#{attribute_value :notify_url}&"
       raw += "return_url=#{attribute_value :return_url}&"
       raw += "cancel_url=#{attribute_value :cancel_url}&"
-      raw += "custom=#{attribute_value :custom}&"
-      raw += "transaction_id=#{attribute_value :transaction_id}&"
-      raw += "picture_url=#{attribute_value :picture_url}&"
-      raw += "payer_email=#{attribute_value :payer_email}&"
-      raw += "secret=#{@secret}"
-      attribute_value(:hash).should == Digest::SHA1.hexdigest(raw)
+      raw += "picture_url=#{attribute_value :picture_url}"
+      attribute_value(:hash).should == OpenSSL::HMAC.hexdigest('sha256', @secret, raw)
     end
 
     it "has an image submit" do
@@ -177,7 +181,7 @@ describe KhipuRails::ButtonHelper do
     before :all do
       KhipuRails.config = nil
       KhipuRails.configure do |config|
-        config.add_receiver "123", '1234567890asdfghjkl', :dev
+        config.add_receiver "1392", 'b174c94de0ec3ce4f1c3156e309de45e8ce0f9ef', :dev
         config.add_receiver "321", 'lkjhgfdsa0987654321', :dev
         config.button_defaults.merge! subject: 'Compra de Puntos Cumplo',
                                       amount: 3000
