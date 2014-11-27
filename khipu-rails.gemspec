@@ -23,5 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency "httpclient"
 
   gem.add_development_dependency "rspec-rails"
-  gem.add_development_dependency "capybara", "~> 1.1.2"
+  gem.add_development_dependency "capybara", ">= 1.1.2"
 end

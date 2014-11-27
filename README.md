@@ -1,5 +1,8 @@
 # KhipuRails
 
+[![Gem Version](https://badge.fury.io/rb/khipu-rails.svg)](http://badge.fury.io/rb/khipu-rails)
+[![Dependency Status](https://gemnasium.com/Janther/khipu-rails.svg)](https://gemnasium.com/Janther/khipu-rails)
+
 [Khipu](https://khipu.com/home) is a service that facilitates web billing and collection in **Chile**.
 
 It handles very elegantly bank transfers and allows to generate bills in batches.
@@ -17,13 +20,12 @@ If you want to work with the gem in development, you can allways use the git rep
 gem 'khipu-rails', :git => "http://github.com/Janther/khipu-rails"
 ```
 
-## Configuration v0.0.2
-Version 0.0.2 will have a configure method much more flexible and powerfull
+## Configuration
 ```ruby
 KhipuRails.configure do |config|
   ##
   # Use receivers to set one or more receivers to the gem.
-  # #add_receiver has 3 parameters, receiver_id, receiver_key, and receiver_mode(:dev|:pro) 
+  # #add_receiver has 3 parameters, receiver_id, receiver_key, and receiver_mode(:dev|:pro)
   ##
   config.add_receiver "receiver1_id", "receiver1_key", :dev
   config.add_receiver "receiver2_id", "receiver2_key", :pro
@@ -104,6 +106,11 @@ If you provide an URL for Khipu to deliver [notifications](https://khipu.com/pag
 # TODO:
 
 ## New Features
+
+### khipu.js
+**Khipu offers a JS library to interact with their API.**
+
+This gem will have the JS integrated along helpers to help implementation.
 
 ### khipu_button v2
 **khipu_button subject, amount, options = {}, &block**
