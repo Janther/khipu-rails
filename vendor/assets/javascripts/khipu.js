@@ -5,7 +5,7 @@
  */
 var kh = jQuery.noConflict();
 
-KhipuAtmosphere = {}
+KhipuAtmosphere = {};
 
 KhipuAtmosphere.statusServer = {
     socket: null,
@@ -32,7 +32,7 @@ KhipuAtmosphere.statusServer = {
         statusRequest.onMessage = function (response) {
             var message = JSON.parse(response.responseBody);
             if (message.lastEvent == 'notified-ok') {
-                document.location.href = message.location
+                document.location.href = message.location;
             } else if (message.lastEvent == 'automaton-downloaded') {
                 KhipuLib.hideWaitAppModal();
                 clearTimeout(KhipuLib.verifyKhipuInstalled);
@@ -53,7 +53,7 @@ KhipuAtmosphere.statusServer = {
 
 KhipuSettings = {
     serverUrl: 'https://khipu.com/'
-}
+};
 
 KhipuLib = {
     verifyKhipuInstalled: 0,
@@ -75,7 +75,7 @@ KhipuLib = {
             var wrapper = document.createElement('div');
             wrapper.id = 'khipu-plugin-wrapper';
             document.documentElement.appendChild(wrapper);
-            document.getElementById('khipu-plugin-wrapper').innerHTML = '<object id="khPlugin" type="application/x-KHPlugin" width="0" height="0"><param name="onload" value="pluginLoaded"/></object>';
+            document.getElementById('khipu-plugin-wrapper').innerHTML = '<object id="khPlugin" type="application/x-KHPlugin" width="0" height="0"><param name="onload" value="pluginLoaded"/></object&gt;';
             navigator.plugins.refresh(false);
         } else {
             navigator.plugins.refresh(false);
@@ -101,94 +101,62 @@ KhipuLib = {
             }
         }
         if (KhipuLib.isMobile()) {
-            KhipuLib.defaultMobile();
+            KhipuLib.onIsMobile();
             return;
         }
 
-        var isInstalled = KhipuLib.isInstalled();
-        if (isInstalled) {
+        if (KhipuLib.isInstalled()) {
             KhipuAtmosphere.statusServer.socket = atmosphere;
-            KhipuAtmosphere.statusServer.subscribe({url: KhipuSettings.serverUrl + 'atm/payment/status/' + KhipuLib.options.paymentId});
-            if (KhipuLib.options.onSuccess != null) {
-                KhipuLib.options.onSuccess();
-            } else {
-                KhipuLib.defaultOnSuccess();
-            }
+            KhipuAtmosphere.statusServer.subscribe({url: KhipuSettings.serverUrl + 'atm/payment/status/' + KhipuLib.options.data.id});
+            KhipuLib.onInstalled();
         } else {
-            if (KhipuLib.options.onNotInstalled) {
-                KhipuLib.options.onNotInstalled(KhipuLib.installUrl + '/' + KhipuLib.options.paymentId + '?returnUrl=' + encodeURIComponent(KhipuLib.options.returnUrl));
-            } else {
-                KhipuLib.defaultOnNotInstalled();
-            }
+            KhipuLib.onNotInstalled();
         }
-        return isInstalled;
     },
-    defaultMobile: function () {
+    onIsMobile: function () {
         if (KhipuLib.options.elementId != null) {
             var element = kh('#' + KhipuLib.options.elementId);
             element.click(function () {
-                document.location.href = KhipuSettings.serverUrl + 'payment/show/' + KhipuLib.options.paymentId;
+                document.location.href = KhipuLib.options.data.url;
             });
             element.prop('disabled', false);
+        } else {
+            document.location.href = KhipuLib.options.data.url;
         }
     },
-    defaultOnNotInstalled: function () {
+    onNotInstalled: function () {
         if (KhipuLib.options.elementId != null) {
             var element = kh('#' + KhipuLib.options.elementId);
             element.click(function () {
-                KhipuLib.showNotInstalledModal();
+                document.location.href = KhipuLib.options.data.url;
             });
             element.prop('disabled', false);
+        } else {
+            document.location.href = KhipuLib.options.data.url;
         }
     },
-    goToKhipu: function () {
-        document.location.href = KhipuLib.installUrl + '/' + KhipuLib.options.paymentId + '?returnUrl=' + encodeURIComponent(KhipuLib.options.returnUrl);
+    sendToKhipu: function () {
+        if (KhipuLib.options.data) {
+            document.location.href = KhipuLib.options.data.url;
+        }
     },
     showWaitAppModal: function () {
         KhipuLib.showModal({
             html: 'Espere mientras se levanta el terminal del pagos khipu...',
-            okCallBack: KhipuLib.goToKhipu,
             height: 100,
             width: 460,
-            classes: 'khipu-wait-app-modal',
-            closeOnClick: false
-        });
-    },
-    showNotInstalledModal: function () {
-        KhipuLib.showModal({
-            html: '<iframe width="100%" height="345px" scrolling="no" frameBorder="0" src="https://khipu.com/page/instalar-en-khipu?layout=minimal"></iframe>',
-            okLabel: 'Ir a instalar khipu',
-            okCallBack: KhipuLib.goToKhipu,
-            height: 450,
-            width: 600
+            classes: 'khipu-wait-app-modal'
         });
     },
     hideWaitAppModal: function () {
         kh('.khipu-wait-app-modal').remove();
         kh('.khipu-wait-app-modal-overlay').remove();
     },
-    appNotInstalled: function () {
-        KhipuLib.hideWaitAppModal();
-        KhipuLib.showModal({
-            html: '<iframe width="100%" height="345px" scrolling="no" frameBorder="0" src="https://khipu.com/page/instalar-en-khipu?layout=minimal"></iframe>',
-            okLabel: 'Ir a instalar khipu',
-            okCallBack: KhipuLib.goToKhipu,
-            height: 450,
-            width: 600
-        });
-    },
     showModal: function (options) {
         var modalName = 'khipu-modal-window-' + KhipuLib.makeId();
-        kh('head').append('<style>.khipu-clearfix:after { content: " "; visibility: hidden; display: block; height: 0; clear: both;}</style>');
         var overlay = document.createElement('div');
         overlay.id = modalName + 'overlay';
         kh(overlay).css({width: '100%', height: '100%', top: 0, left: 0, position: 'fixed', 'opacity': '0.8', 'background-color': '#000000', 'z-index': 500});
-        var closeOnClick = typeof options.closeOnClick == 'undefined' ? true : options.closeOnClick;
-        if (closeOnClick) {
-            kh(overlay).click(function () {
-                KhipuLib.closeModal(modalName);
-            });
-        }
         document.body.appendChild(overlay);
         var modal = document.createElement('div');
         modal.id = modalName;
@@ -220,139 +188,36 @@ KhipuLib = {
         kh(contentWrapper).html(options.html);
         modalWrapper.appendChild(contentWrapper);
 
-        if (options.okLabel) {
-            var button = document.createElement('button');
-            kh(button).text(options.okLabel);
-            if (options.okCallBack) {
-                kh(button).click(options.okCallBack);
-            }
-            kh(button).css({
-                'background': 'transparent',
-                'background-color': '#3c2c70',
-                'border-color': '#32255e',
-                'display': 'inline-block',
-                'float': 'right',
-                'border': 'none',
-                'width': 'auto',
-                'overflow': 'visible',
-                'color': '#FFF',
-                'padding': '6px 12px',
-                'border-radius': '4px',
-                '-webkit-border-radius': '4px',
-                '-moz-border-radius': '4px',
-                'font-weight': 'normal',
-                'font-size': '14px',
-                'line-height': '1.428571429',
-                'text-align': 'center',
-                'text-decoration': 'none',
-                'cursor': 'pointer',
-                'text-shadow': '0 1px 0 rgba(0,0,0,0.4)',
-                'vertical-align': ' middle',
-                'background-image': ' none',
-                'font-family': ' "Helvetica Neue",Helvetica,Arial,sans-serif',
-                '-webkit-user-select': ' none',
-                '-moz-user-select': ' none',
-                '-ms-user-select': ' none',
-                '-o-user-select': ' none',
-                'margin': '0 5px 10px'
-            });
-
-            var closeLink = document.createElement('a');
-            kh(closeLink).html('Cerrar');
-            kh(closeLink).click(function () {
-                KhipuLib.closeModal(modalName);
-            });
-            kh(closeLink).attr('href', 'javascript:void(0)');
-            var buttons = document.createElement('div');
-            buttons.id = 'buttons-wrapper';
-            kh(buttons).addClass('khipu-clearfix');
-            kh(buttons).css({'font-family': '"Helvetica Neue", "Helvetica", "Arial", "sans-serif"'})
-            buttons.appendChild(button);
-            buttons.appendChild(closeLink);
-
-            modalWrapper.appendChild(buttons);
-        }
-
-        kh('#' + modalName + ' iframe').css('overflow', 'hidden');
-        kh('#' + modalName + ' .modal-header h2').css({
-            'background-color': '#e3e3e3',
-            'color': '#444',
-            'font-size': '2em',
-            'font-weight': '700',
-            'margin': '3px',
-            'text-shadow': '1px 1px 0'
-        });
-        if (options.okLabel) {
-            kh(buttons).css({
-                width: '100%',
-                'margin-top': '10px',
-                'height': '50px'
-            });
-            kh(closeLink).css({
-                'margin-right': '10px',
-                'background-color': 'transparent',
-                'background': 'transparent',
-                'background-image': 'none',
-                'border-radius': '0',
-                'border': '1px solid transparent',
-                'box-shadow': 'none',
-                'color': '#2cbbe8',
-                'cursor': 'pointer',
-                'display': 'inline-block',
-                'float': 'right',
-                'font-family': ' "Helvetica Neue",Helvetica,Arial,sans-serif',
-                'font-size': '14px',
-                'font-weight': 'normal',
-                'line-height': '1.428571429',
-                'margin-bottom': '0',
-                'padding': '6px 12px',
-                'text-align': 'center',
-                'text-decoration': 'none',
-                'text-shadow': 'none',
-                'user-select': 'none',
-                'white-space': 'nowrap',
-                'vertical-align': 'middle',
-                '-moz-user-select': 'none',
-                '-ms-user-select': 'none',
-                '-o-user-select': 'none',
-                '-webkit-box-shadow': 'none',
-                '-webkit-user-select': 'none'
-            });
-        }
         kh(overlay).fadeIn();
         kh(modal).fadeIn();
-
     },
-    closeModal: function (modalName) {
-        kh('#' + modalName + 'overlay').fadeOut("fast", function () {
-            kh('#' + modalName + 'overlay').remove()
-        });
-        kh('#' + modalName).fadeOut("fast", function () {
-            kh('#' + modalName).remove()
-        });
-    },
-    defaultOnSuccess: function () {
-        if (KhipuLib.options.elementId != null) {
-            var element = document.getElementById(KhipuLib.options.elementId);
-            if (element != null) {
-                var paymentId = KhipuLib.options.paymentId;
-                element.onclick = function () {
-                    KhipuLib.startKhipu(paymentId);
-                };
+    onInstalled: function () {
+        if (KhipuLib.options.data != null) {
+            if (!KhipuLib.options.data['ready-for-terminal']) {
+                document.location.href = KhipuLib.options.data.url;
+                return;
+            }
+            if (KhipuLib.options.elementId != null) {
+                var element = kh('#' + KhipuLib.options.elementId);
+                kh(element).click(function () {
+                    KhipuLib.startKhipu();
+                });
                 if (element.disabled) {
                     element.disabled = false;
                 }
+            } else {
+                KhipuLib.startKhipu();
             }
         }
     },
-    startKhipu: function (paymentId) {
+    startKhipu: function () {
         if (KhipuLib.isChrome()) {
-            KhipuLib.sendEvent('startKhipuEvent', paymentId + '|' + false)
+            KhipuLib.sendEvent('startKhipuEvent', KhipuLib.options.data.id + '|' + false);
             KhipuLib.showWaitAppModal();
-            KhipuLib.verifyKhipuInstalled = setTimeout(KhipuLib.appNotInstalled, 10000);
+            KhipuLib.verifyKhipuInstalled = setTimeout(KhipuLib.sendToKhipu, 10000);
         } else {
             var khPlugin = document.getElementById('khPlugin');
-            khPlugin.callKH(KhipuSettings.serverUrl + 'payment/getPaymentData/' + paymentId)
+            khPlugin.callKH(KhipuSettings.serverUrl + 'payment/getPaymentData/' + KhipuLib.options.data.id);
         }
     },
     sendEvent: function (type, data) {
