@@ -1,5 +1,5 @@
-/*
- * Copyright 2014 Jeanfrancois Arcand
+/**
+ * Copyright 2013 Jeanfrancois Arcand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Atmosphere.js
- * https://github.com/Atmosphere/atmosphere-javascript
- * 
- * API reference
- * https://github.com/Atmosphere/atmosphere/wiki/jQuery.atmosphere.js-API
- * 
- * Highly inspired by 
- * - Portal by Donghwan Kim http://flowersinthesand.github.io/portal/
+/*
+ * Highly inspired by Portal v1.0
+ * http://github.com/flowersinthesand/portal
+ *
+ * Copyright 2011-2013, Donghwan Kim
+ * Licensed under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  */
-(function(root, factory) {
-    if (typeof define === "function" && define.amd) {
-        // AMD
-        define(factory);
-    } else {
-        // Browser globals, Window
-        root.atmosphere = factory();
-    }
-}(this, function() {
+/**
+ * Official documentation of this library: https://github.com/Atmosphere/atmosphere/wiki/jQuery.atmosphere.js-API
+ */
+(function () {
 
     "use strict";
 
-    var version = "2.1.5-javascript",
+    var version = "2.1.2-javascript",
         atmosphere = {},
         guid,
         requests = [],
@@ -115,7 +108,6 @@
                 readResponsesHeaders: false,
                 maxReconnectOnClose: 5,
                 enableProtocol: true,
-                pollingInterval : 0,
                 onError: function (response) {
                 },
                 onClose: function (response) {
@@ -287,12 +279,10 @@
                 // Wait to be sure we have the full message before closing.
                 if (_response.partialMessage === "" && (rq.transport === 'streaming') && (ajaxRequest.responseText.length > rq.maxStreamingLength)) {
                     _response.messages = [];
-                    rq.reconnectingOnLength = true;
-                    rq.isReopen = true;
                     _invokeClose(true);
                     _disconnect();
                     _clearState();
-                    _reconnect(ajaxRequest, rq, rq.pollingInterval);
+                    _reconnect(ajaxRequest, rq, 0);
                 }
             }
 
@@ -324,8 +314,6 @@
                     closeR.url = url;
                     closeR.contentType = "text/plain";
                     closeR.transport = 'polling';
-                    closeR.method = 'GET';
-                    closeR.data = '';
                     closeR.async = false;
                     _pushOnClose("", closeR);
                 }
@@ -372,7 +360,7 @@
                     _activeRequest = null;
                 }
                 if (_websocket != null) {
-                    if (_websocket.canSendMessage) {
+                    if (_websocket.webSocketOpened) {
                         _websocket.close();
                     }
                     _websocket = null;
@@ -964,7 +952,7 @@
                                     // _readHeaders(_jqxhr, rq);
 
                                     if (!rq.executeCallbackBeforeReconnect) {
-                                        _reconnect(_jqxhr, rq, rq.pollingInterval);
+                                        _reconnect(_jqxhr, rq, 0);
                                     }
 
                                     if (msg != null && typeof msg !== 'string') {
@@ -981,7 +969,7 @@
                                     }
 
                                     if (rq.executeCallbackBeforeReconnect) {
-                                        _reconnect(_jqxhr, rq, rq.pollingInterval);
+                                        _reconnect(_jqxhr, rq, 0);
                                     }
                                 } else {
                                     atmosphere.util.log(_request.logLevel, ["JSONP reconnect maximum try reached " + _request.requestCount]);
@@ -994,7 +982,7 @@
                         }, 50);
                     },
                     abort: function () {
-                        if (script && script.clean) {
+                        if (script.clean) {
                             script.clean();
                         }
                     }
@@ -1029,7 +1017,7 @@
              * @private
              */
             function _buildWebSocketUrl() {
-                return _attachHeaders(_request, atmosphere.util.getAbsoluteURL(_request.url)).replace(/^http/, "ws");
+                return atmosphere.util.getAbsoluteURL(_attachHeaders(_request)).replace(/^http/, "ws");
             }
 
             /**
@@ -1237,12 +1225,12 @@
 
                     var reopening = webSocketOpened;
 
+                    webSocketOpened = true;
                     if(_websocket != null) {
-                        _websocket.canSendMessage = true;
+                        _websocket.webSocketOpened = webSocketOpened;
                     }
 
                     if (!_request.enableProtocol) {
-                        webSocketOpened = true;
                         if (reopening) {
                             _open('re-opening', "websocket", _request);
                         } else {
@@ -1260,12 +1248,6 @@
 
                 _websocket.onmessage = function (message) {
                     _timeout(_request);
-
-                    // We only consider it opened if we get the handshake data
-                    // https://github.com/Atmosphere/atmosphere-javascript/issues/74
-                    if (_request.enableProtocol) {
-                        webSocketOpened = true;
-                    }
 
                     _response.state = 'messageReceived';
                     _response.status = 200;
@@ -1370,9 +1352,7 @@
                     }
                 };
 
-                var ua = navigator.userAgent.toLowerCase();
-                var isAndroid = ua.indexOf("android") > -1;
-                if (isAndroid && _websocket.url === undefined) {
+                if (_websocket.url === undefined) {
                     // Android 4.1 does not really support websockets and fails silently
                     _websocket.onclose({
                         reason: "Android 4.1 does not support websockets.",
@@ -1571,7 +1551,7 @@
 
                 if (rq.contentType !== '') {
                     //Eurk!
-                    url += "&Content-Type=" + (rq.transport === 'websocket' ? rq.contentType : encodeURIComponent(rq.contentType));
+                    url += "&Content-Type=" + rq.transport === 'websocket' ? rq.contentType : encodeURIComponent(rq.contentType);
                 }
 
                 if (rq.enableProtocol) {
@@ -1692,9 +1672,6 @@
                         var update = false;
 
                         if (rq.transport === 'streaming' && rq.readyState > 2 && ajaxRequest.readyState === 4) {
-                            if (rq.reconnectingOnLength) {
-                                return;
-                            }
                             _clearState();
                             reconnectF();
                             return;
@@ -1739,7 +1716,7 @@
                             if (atmosphere.util.trim(responseText).length === 0 && rq.transport === 'long-polling') {
                                 // For browser that aren't support onabort
                                 if (!ajaxRequest.hasData) {
-                                    _reconnect(ajaxRequest, rq, rq.pollingInterval);
+                                    _reconnect(ajaxRequest, rq, 0);
                                 } else {
                                     ajaxRequest.hasData = false;
                                 }
@@ -1810,14 +1787,14 @@
 
                             var isAllowedToReconnect = request.transport !== 'streaming' && request.transport !== 'polling';
                             if (isAllowedToReconnect && !rq.executeCallbackBeforeReconnect) {
-                                _reconnect(ajaxRequest, rq, rq.pollingInterval);
+                                _reconnect(ajaxRequest, rq, 0);
                             }
 
                             if (_response.responseBody.length !== 0 && !skipCallbackInvocation)
                                 _invokeCallback();
 
                             if (isAllowedToReconnect && rq.executeCallbackBeforeReconnect) {
-                                _reconnect(ajaxRequest, rq, rq.pollingInterval);
+                                _reconnect(ajaxRequest, rq, 0);
                             }
 
                             _verifyStreamingLength(ajaxRequest, rq);
@@ -1829,7 +1806,6 @@
                         _subscribed = true;
                     } catch (e) {
                         atmosphere.util.log(rq.logLevel, ["Unable to connect to " + rq.url]);
-                        _onError(0, e);
                     }
 
                 } else {
@@ -1904,7 +1880,7 @@
             function _reconnect(ajaxRequest, request, reconnectInterval) {
                 if (request.reconnect || (request.suspend && _subscribed)) {
                     var status = 0;
-                    if (ajaxRequest && ajaxRequest.readyState > 1) {
+                    if (ajaxRequest && ajaxRequest.readyState !== 0) {
                         status = ajaxRequest.status > 1000 ? 0 : ajaxRequest.status;
                     }
                     _response.status = status === 0 ? 204 : status;
@@ -2379,7 +2355,7 @@
                         data = msg;
                     }
 
-                    if (!_websocket.canSendMessage) {
+                    if (!_websocket.webSocketOpened) {
                         atmosphere.util.error("WebSocket not connected.");
                         return;
                     }
@@ -2714,7 +2690,7 @@
         },
 
         isBinary: function (data) {
-            // True if data is an instance of Blob, ArrayBuffer or ArrayBufferView 
+            // True if data is an instance of Blob, ArrayBuffer or ArrayBufferView
             return /^\[object\s(?:Blob|ArrayBuffer|.+Array)\]$/.test(Object.prototype.toString.call(data));
         },
 
@@ -2784,15 +2760,7 @@
             return s.join("&").replace(/%20/g, "+");
         },
 
-        storage: function () {
-        	try {
-        		return !!(window.localStorage && window.StorageEvent);
-        	} catch (e) {
-        		//Firefox throws an exception here, see 
-        		//https://bugzilla.mozilla.org/show_bug.cgi?id=748620
-        		return false;
-        	}
-        },
+        storage: !!(window.localStorage && window.StorageEvent),
 
         iterate: function (fn, interval) {
             var timeoutId;
@@ -3004,9 +2972,9 @@
         },
 
         checkCORSSupport: function () {
-            if (atmosphere.util.browser.msie && !window.XDomainRequest && +atmosphere.util.browser.version.split(".")[0] < 11) {
+            if (atmosphere.util.browser.msie && !window.XDomainRequest) {
                 return true;
-            } else if (atmosphere.util.browser.opera && +atmosphere.util.browser.version.split(".") < 12.0) {
+            } else if (atmosphere.util.browser.opera && atmosphere.util.browser.version < 12.0) {
                 return true;
             }
 
@@ -3044,7 +3012,7 @@
 
         atmosphere.util.browser[match[1] || ""] = true;
         atmosphere.util.browser.version = match[2] || "0";
-        
+
         // Trident is the layout engine of the Internet Explorer
         // IE 11 has no "MSIE: 11.0" token
         if (atmosphere.util.browser.trident) {
@@ -3052,7 +3020,7 @@
         }
 
         // The storage event of Internet Explorer and Firefox 3 works strangely
-        if (atmosphere.util.browser.msie || (atmosphere.util.browser.mozilla && +atmosphere.util.browser.version.split(".")[0] === 1)) {
+        if (atmosphere.util.browser.msie || (atmosphere.util.browser.mozilla && atmosphere.util.browser.version.split(".")[0] === "1")) {
             atmosphere.util.storage = false;
         }
     })();
@@ -3075,7 +3043,6 @@
     atmosphere.util.on(window, "offline", function () {
         atmosphere.unsubscribe();
     });
-    
-    return atmosphere;
-}));
+    window.atmosphere = atmosphere;
+})();
 /* jshint eqnull:true, noarg:true, noempty:true, eqeqeq:true, evil:true, laxbreak:true, undef:true, browser:true, indent:false, maxerr:50 */

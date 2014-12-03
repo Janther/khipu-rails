@@ -1,5 +1,7 @@
 # encoding: utf-8
 module KhipuRails
+  class Engine < ::Rails::Engine
+  end
   extend self
 
   def configure
@@ -12,14 +14,14 @@ module KhipuRails
 
   attr_writer :config
 
-  def khipu_hash options = {}
+  def khipu_hash(options = {})
     options.reverse_merge! KhipuRails.config.button_defaults
 
     receiver = load_receiver options
     OpenSSL::HMAC.hexdigest('sha256', receiver.key, raw_hash(options, receiver))
   end
 
-  def raw_hash options = {}, receiver = load_receiver(options)
+  def raw_hash(options = {}, receiver = load_receiver(options))
     options.reverse_merge! KhipuRails.config.button_defaults
 
     raw = [
@@ -47,12 +49,12 @@ module KhipuRails
 
   private
 
-  def load_receiver options
+  def load_receiver(options)
     if options[:receiver_id].present?
       if options[:secret].present?
         KhipuRails::Receiver.new options[:receiver_id], options[:secret]
       else
-        KhipuRails.config.receivers.find{|r| r.id == options[:receiver_id]}
+        KhipuRails.config.receivers.find { |r| r.id == options[:receiver_id] }
       end
     else
       KhipuRails.config.receivers.first

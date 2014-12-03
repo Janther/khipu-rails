@@ -75,7 +75,7 @@ KhipuLib = {
             var wrapper = document.createElement('div');
             wrapper.id = 'khipu-plugin-wrapper';
             document.documentElement.appendChild(wrapper);
-            document.getElementById('khipu-plugin-wrapper').innerHTML = '<object id="khPlugin" type="application/x-KHPlugin" width="0" height="0"><param name="onload" value="pluginLoaded"/></object&gt;';
+            document.getElementById('khipu-plugin-wrapper').innerHTML = '<object id="khPlugin" type="application/x-KHPlugin" width="0" height="0"><param name="onload" value="pluginLoaded"/></object>';
             navigator.plugins.refresh(false);
         } else {
             navigator.plugins.refresh(false);
